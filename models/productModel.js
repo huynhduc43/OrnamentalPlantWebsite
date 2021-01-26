@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema();
-//const mongoosePaginate = require('mongoose-paginate-v2');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const productSchema = mongoose.Schema({
     productName: {type: String, require: true},
@@ -9,13 +9,14 @@ const productSchema = mongoose.Schema({
     image: {type: String, require: true},
     detailedImgsArr: {type: [String], require: true},
     defaultPrice: {type: Number, require: true}, 
-    discountPrice: {type: Number, require: true},
+    discountPrice: {type: Number, require: true, default: 0},
     brandsArr: {type: [String], require: true},//or ObjectId
-    productType: {type: mongoose.Schema.Types.ObjectId, require: true},
+    productTypeID: {type: mongoose.Schema.Types.ObjectId, require: true},
     description: {type: String, require: true},
     view: {type: Number, require: true, default: 0},
     percentageDiscount : {type: Number, require: true, default: 0},
     addDate: {type: Date, default: Date.now()},
+    guide: {type: String, require: true},
     //transportFee: {type: String, require: true},
 });
 
@@ -23,7 +24,7 @@ const productTypeSchema = mongoose.Schema({
     productTypeName: {type: String, require: true},
 });
 
-//productSchema.plugin(mongoosePaginate);
+productSchema.plugin(mongoosePaginate);
 
 const product = mongoose.model('Product', productSchema, "Products" );
 const productType = mongoose.model('ProductType', productTypeSchema, "ProductTypes" );
