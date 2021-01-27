@@ -11,25 +11,34 @@ const productSchema = mongoose.Schema({
     defaultPrice: {type: Number, require: true}, 
     discountPrice: {type: Number, require: true, default: 0},
     brandsArr: {type: [String], require: true},//or ObjectId
-    productTypeID: {type: mongoose.Schema.Types.ObjectId, require: true},
+    productTypeID: {type: mongoose.Schema.Types.ObjectId, require: true, ref: "ProductType"},
     description: {type: String, require: true},
     view: {type: Number, require: true, default: 0},
     percentageDiscount : {type: Number, require: true, default: 0},
     addDate: {type: Date, default: Date.now()},
     guide: {type: String, require: true},
+    childProductTypeID: {type: mongoose.Schema.Types.ObjectId, require: true, ref: "ChildProductType"},
     //transportFee: {type: String, require: true},
 });
 
 const productTypeSchema = mongoose.Schema({
     productTypeName: {type: String, require: true},
+    childProductTypeID: {type: [mongoose.Schema.Types.ObjectId], require: true, ref: "ChildProductType"},
+});
+
+const childProductTypeSchema = mongoose.Schema({
+    //parentProductTypeID: {type: mongoose.Schema.Types.ObjectId, require: true, ref: "ProductType"},
+    childProductTypeName: {type: String, require: true},
 });
 
 productSchema.plugin(mongoosePaginate);
 
 const product = mongoose.model('Product', productSchema, "Products" );
 const productType = mongoose.model('ProductType', productTypeSchema, "ProductTypes" );
+const childProductType = mongoose.model('ChildProductType', childProductTypeSchema, "ChildProductTypes" );
 
 module.exports = {
     productModel: product,
-    productTypeModel: productType
+    productTypeModel: productType,
+    childProductTypeModel: childProductType
 }

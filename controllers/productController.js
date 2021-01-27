@@ -7,6 +7,7 @@ exports.displayListProducts = async(req, res, next) => {
     if(page < 0) page = 1;
 
     const paginate = await productService.getListProducts(page, PRODUCT_PER_PAGE);
+    const category = await productService.getCategory(paginate.page);
     const pagination = productService.handlePagination(paginate.page, paginate.totalPages);
 
     res.render('products/category',{
@@ -20,13 +21,14 @@ exports.displayListProducts = async(req, res, next) => {
         hasPrevPage: paginate.page !== 1,
         hasNextPage: paginate.totalPages !== paginate.page,
         pagination: pagination,
+        category: category
     });
 }
 
 exports.displayProductDetail = async(req, res, next) => {
     const productDetail = await productService.getProductDetailInfo(req, res, next);
     res.render('products/productDetail', {
-        title: "Chi tiết" + "A",
+        title: "Chi tiết - " + productDetail.productName,
         productDetail,
     })
 }
