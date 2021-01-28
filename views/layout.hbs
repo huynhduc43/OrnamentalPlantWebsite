@@ -55,25 +55,26 @@
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Customer login</h5>
+              <h5 class="modal-title">Đăng nhập</h5>
               <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
                   aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
               <form action="customer-orders.html" method="post">
                 <div class="form-group">
-                  <input id="email-modal" type="text" placeholder="email" class="form-control">
+                  <input id="email-modal" type="text" placeholder="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                  <input id="password-modal" type="password" placeholder="password" class="form-control">
+                  <input id="password-modal" type="password" placeholder="Mật khẩu" class="form-control">
                 </div>
                 <p class="text-center">
-                  <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>
+                  <button class="btn btn-primary"><i class="fa fa-sign-in"></i> Đăng nhập</button>
                 </p>
               </form>
-              <p class="text-center text-muted">Not registered yet?</p>
-              <p class="text-center text-muted"><a href="register.html"><strong>Register now</strong></a>! It is easy
-                and done in 1 minute and gives you access to special discounts and much more!</p>
+              <p class="text-center text-muted">Chưa có tài khoản?</p>
+              <p class="text-center text-muted"><a href="register.html"><strong>Đăng ký ngay</strong></a>! Thực hiện dễ dàng và
+                hoàn thành trong 1 phút, cho phép bạn tiếp cận với các chương trình giảm giá đặc biệt và hơn thế
+                nữa!</p>
             </div>
           </div>
         </div>
@@ -83,7 +84,7 @@
 
     </div>
     <nav class="navbar navbar-expand-lg">
-      <div class="container"><a href="index.html" class="navbar-brand home"><img src="/images/logo.png" alt="Obaju logo"
+      <div class="container"><a href="/" class="navbar-brand home"><img src="/images/logo.png" alt="Obaju logo"
             class="d-none d-md-inline-block"><img src="/images/logo-small.png" alt="Obaju logo"
             class="d-inline-block d-md-none"><span class="sr-only">Obaju - go to homepage</span></a>
         <div class="navbar-buttons">
@@ -109,7 +110,7 @@
                       {{!-- <h5>Clothing</h5> --}}
                       <ul class="list-unstyled">
                         {{#each childProductTypeID}}
-                        <li class="nav-item"><a href="/products/category?page=1&catID={{_id}}"
+                        <li class="nav-item"><a href="/products/category?page=1&catID={{../_id}}&childCatID={{_id}}"
                             class="nav-link">{{childProductTypeName}}</a></li>
                         {{/each}}
                       </ul>
@@ -254,7 +255,7 @@ _________________________________________________________
   <script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
   <script src="/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.js"></script>
   <script src="/javascripts/front.js"></script>
-
+  <script src="/javascripts/custom.js"></script>
 
 </body>
 

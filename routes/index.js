@@ -5,7 +5,7 @@ const homepageController = require('../controllers/homepageController');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Mua cây cảnh online' });
+//   res.render('index', { title: 'Bán cây cảnh online' });
 // });
 
 router.get('/', homepageController.displayHomepage);

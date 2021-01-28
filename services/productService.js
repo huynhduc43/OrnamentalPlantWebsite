@@ -1,8 +1,10 @@
 const productModel = require('../models/productModel');
 
-exports.getListProducts = async (pageNumber, productPerPage) => {
+exports.getListProducts = async (pageNumber, productPerPage, filter) => {
+    const queryString = filter.childCatID.childProductTypeID ? filter.childCatID : filter.catID;
+    //console.log(queryString);
     let listProducts = await productModel.productModel
-        .paginate({}, {
+        .paginate(queryString, {
             page: pageNumber,
             limit: productPerPage,
         });
@@ -10,14 +12,14 @@ exports.getListProducts = async (pageNumber, productPerPage) => {
     return listProducts;
 }
 
-exports.handlePagination = (currentPage, lastPage) => {
+exports.handlePagination = (currentPage, lastPage, filter) => {
     let pagination = [];
     let i;
     let stop;
 
     if (lastPage < 5) {
         i = 1;
-        stop = lastPage;
+        stop = lastPage + 1;
     } else {
         if (currentPage <= 3) {
             i = 1;
@@ -33,7 +35,9 @@ exports.handlePagination = (currentPage, lastPage) => {
     for (i; i < stop; i++) {
         const pageItem = {
             pageNumber: i,
-            isActived: currentPage === i
+            isActived: currentPage === i,
+            catID: filter.catID.productTypeID,
+            childCatID: filter.childCatID.childProductTypeID
         };
 
         pagination.push(pageItem);
@@ -43,27 +47,32 @@ exports.handlePagination = (currentPage, lastPage) => {
 }
 
 exports.getProductDetailInfo = async (req, res, next) => {
-    const info = await productModel.productModel.findOne({ _id: req.params.productID });
-    //console.log(info);
+    const info = await productModel.productModel
+        .findOne({ _id: req.params.productID })
+        .populate({ path: "productTypeID", model: "ProductType" })
+        .then(async (docs) => {
+            const options = {
+                path: "childProductTypeID",
+                model: "ChildProductType",
+            }
+
+            const result = await productModel.productModel.populate(docs, options);
+            return result;
+        });
+
+    console.log(info);
     return info;
 }
 
-exports.getListProductTypes = async () => {
-    return listProductTypes = await productModel.productTypeModel.find({});
+exports.getListProductTypes = async (filter) => {
+    return listProductTypes = await productModel.productTypeModel.find(filter);
 }
 
-exports.getCategory2 = async () => {
-    const category = await productModel.childProductTypeModel
-        .find({})
-        .populate({ path: "parentProductTypeID", model: "ProductType" })
-        .then((docs) => {
-            return docs;
-        });
-    //console.log(category);
-    return category;
+exports.getListChildProductTypes = async (filter) => {
+    return listChildProductTypes = await productModel.childProductTypeModel.find(filter);
 }
 
-exports.getCategory = async (pageNumber) => {
+exports.getCategory = async (pageNumber, isActived) => {
     let category = await productModel.productTypeModel
         .find({})
         .lean()
@@ -72,11 +81,38 @@ exports.getCategory = async (pageNumber) => {
             return docs;
         });
 
-    //Add page number
-    for (let i = 0; i < category.length; i++){
-        category[i].pageNumber = pageNumber;
+    for (let i = 0; i < category.length; i++) {
+        category[i].totalProducts = await productModel.productModel.countDocuments({ productTypeID: category[i]._id });
+        
+        if (isActived) {
+
+            if (isActived.childCatID.childProductTypeID) {
+                const t = category[i].childProductTypeID ? category[i].childProductTypeID.length : 0;
+                
+                for (let j = 0; j < t; j++) {
+
+                    if (isActived.childCatID.childProductTypeID.equals(category[i].childProductTypeID[j]._id)) {
+                        category[i].childProductTypeID[j].childCatIDIsActived = true;
+                    } else {
+                        category[i].childProductTypeID[j].childCatIDIsActived = false;
+                    }
+
+                }
+                category[i].catIDIsActived = false;
+
+            } else if (category[i]._id.equals(isActived.catID.productTypeID)) {
+                category[i].catIDIsActived = true;
+            } else {
+                //Khi tìm tất cả
+            }
+
+        }
+
     }
 
-    //console.log(category);
     return category;
+}
+
+exports.count = async () => {
+    return await productModel.productModel.estimatedDocumentCount();
 }

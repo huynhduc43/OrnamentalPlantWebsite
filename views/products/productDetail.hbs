@@ -6,9 +6,9 @@
                     <!-- breadcrumb-->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Ladies</a></li>
-                            <li class="breadcrumb-item"><a href="#">Tops</a></li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/products/category?page=1&catID={{productDetail.productTypeID._id}}">{{productDetail.productTypeID.productTypeName}}</a></li>
+                            <li class="breadcrumb-item"><a href="/products/category?page=1&catID={{productDetail.productTypeID._id}}&childCatID={{productDetail.childProductTypeID._id}}">{{productDetail.childProductTypeID.childProductTypeName}}</a></li>
                             <li aria-current="page" class="breadcrumb-item active">{{productDetail.productName}}</li>
                         </ol>
                     </nav>

@@ -6,8 +6,18 @@
                     <!-- breadcrumb-->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li aria-current="page" class="breadcrumb-item active">Ladies</li>
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            {{#unless breadcrumb.productTypeID}}
+                                <li aria-current="page" class="breadcrumb-item active">Tất cả</li>
+                            {{/unless}}
+
+                            {{#if breadcrumb.productChildTypeID}}
+                                <li class="breadcrumb-item"><a href="/products/category?page=1&catID={{breadcrumb.productTypeID}}">{{breadcrumb.productTypeName}}</a></li>
+                                <li aria-current="page" class="breadcrumb-item active">{{breadcrumb.childProductTypeName}}</li>
+                            {{else}}
+                                <li aria-current="page" class="breadcrumb-item active">{{breadcrumb.productTypeName}}</li>
+                            {{/if}}
+                           
                         </ol>
                     </nav>
                 </div>
@@ -22,44 +32,43 @@
                         </div>
                         <div class="card-body">
                             <ul class="nav nav-pills flex-column category-menu">
+                                <li><a href="/products/category?page={{currentPage}}" 
+                                {{#if isActivedForCatAll}}
+                                    class="nav-link active"
+                                {{else}}
+                                    class="nav-link"
+                                {{/if}}>Tất cả 
+                                <span {{#if isActivedForCatAll}}
+                                    class="badge badge-light"
+                                {{else}}
+                                    class="badge badge-secondary"
+                                {{/if}}>{{totalDocs}}</span></a>
+                                </li>
+                                
                                 {{#each category}}
-                                    <li><a href="/products/category?page={{pageNumber}}&catID={{_id}}"
-                                            class="nav-link">{{productTypeName}}
-                                            <span class="badge badge-light">123</span></a>
+                                    <li><a href="/products/category?page={{../currentPage}}&catID={{_id}}"
+                                            {{#if catIDIsActived}}
+                                                class="nav-link active"
+                                            {{else}}
+                                                class="nav-link"
+                                            {{/if}}>{{productTypeName}}
+                                            <span {{#if catIDIsActived}}
+                                                class="badge badge-light"
+                                            {{else}}
+                                                class="badge badge-secondary"
+                                            {{/if}}>{{totalProducts}}</span></a>
                                         <ul class="list-unstyled">
                                             {{#each childProductTypeID}}
-                                                <li><a href="/products/category?page={{../pageNumber}}&catID={{_id}}" class="nav-link">{{childProductTypeName}}</a></li>
+                                                <li><a href="/products/category?page={{../../currentPage}}&catID={{../_id}}&childCatID={{_id}}" 
+                                                {{#if childCatIDIsActived}}
+                                                    class="nav-link active"
+                                                {{else}}   
+                                                    class="nav-link"
+                                                {{/if}}>{{childProductTypeName}}</a></li>
                                             {{/each}}
                                         </ul>
                                     </li>
                                 {{/each}}
-                                <!-- <li><a href="category.html" class="nav-link">Sen đá
-                                        <span class="badge badge-secondary">42</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>-->
-                                <!--<li><a href="category.html" class="nav-link active">Xương rồng <span
-                                            class="badge badge-light">123</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Skirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="category.html" class="nav-link">Kids <span
-                                            class="badge badge-secondary">11</span></a>
-                                    <ul class="list-unstyled">
-                                        <li><a href="category.html" class="nav-link">T-shirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Skirts</a></li>
-                                        <li><a href="category.html" class="nav-link">Pants</a></li>
-                                        <li><a href="category.html" class="nav-link">Accessories</a></li>
-                                    </ul>
-                                </li>-->
                             </ul>
                         </div>
                     </div>
@@ -151,7 +160,7 @@
                         <div class="row">
                             <div class="col-md-12 col-lg-4 products-showing">Đang hiển thị <strong>{{limit}}</strong>
                                 trên
-                                <strong>{{totalDocs}}</strong> sản phẩm
+                                <strong>{{totalProductsPerType}}</strong> sản phẩm
                             </div>
                             <div class="col-md-12 col-lg-8 products-number-sort">
                                 <form
@@ -222,182 +231,39 @@
                             <!-- /.product            -->
                         </div>
                         {{/each}}
-
-                        {{!-- <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt=""
-                                        class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">White Blouse Armani</a></h3>
-                                    <p class="price">
-                                        <del>$280</del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View
-                                            detail</a><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                                <div class="ribbon sale">
-                                    <div class="theribbon">SALE</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt=""
-                                        class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View
-                                            detail</a><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product3.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product3_2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product3.jpg" alt=""
-                                        class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Black Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View
-                                            detail</a><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product2_2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product2.jpg" alt=""
-                                        class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">White Blouse Versace</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View
-                                            detail</a><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                            </div>
-                            <!-- /.product            -->
-                        </div>
-                        <div class="col-lg-4 col-md-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front"><a href="detail.html"><img src="img/product1.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                        <div class="back"><a href="detail.html"><img src="img/product1_2.jpg" alt=""
-                                                    class="img-fluid"></a></div>
-                                    </div>
-                                </div><a href="detail.html" class="invisible"><img src="img/product1.jpg" alt=""
-                                        class="img-fluid"></a>
-                                <div class="text">
-                                    <h3><a href="detail.html">Fur coat</a></h3>
-                                    <p class="price">
-                                        <del></del>$143.00
-                                    </p>
-                                    <p class="buttons"><a href="detail.html" class="btn btn-outline-secondary">View
-                                            detail</a><a href="basket.html" class="btn btn-primary"><i
-                                                class="fa fa-shopping-cart"></i>Add to cart</a></p>
-                                </div>
-                                <!-- /.text-->
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon-->
-                            </div>
-                            <!-- /.product            -->
-                        </div> --}}
-                        <!-- /.products-->
                     </div>
 
-                    <div class="pages">
+                    {{#if totalProductsPerType}}
+                       <h5 class="pages">
                         {{!-- <p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i
                                     class="fa fa-chevron-down"></i> Load more</a></p> --}}
 
                         <nav aria-label="Page navigation example" class="d-flex justify-content-center">
                             <ul class="pagination">
                                 {{#if hasPrevPage}}
-                                <li class="page-item"><a href="/products/category?page={{prevPage}}"
+                                <li class="page-item"><a href="/products/category?page={{prevPage}}&catID={{catID}}"
                                         aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span
                                             class="sr-only">Previous</span></a></li>
                                 {{/if}}
 
                                 {{#each pagination}}
                                 <li {{#if isActived}} class="page-item active" {{else}} class="page-item" {{/if}}><a
-                                        href="/products/category?page={{pageNumber}}"
+                                        href="/products/category?page={{pageNumber}}&catID={{catID}}&childCatID={{childCatID}}"
                                         class="page-link">{{pageNumber}}</a></li>
                                 {{/each}}
 
                                 {{#if hasNextPage}}
-                                <li class="page-item"><a href="/products/category?page={{nextPage}}" aria-label="Next"
+                                <li class="page-item"><a href="/products/category?page={{nextPage}}&catID={{catID}}&childCatID={{childCatID}}" aria-label="Next"
                                         class="page-link"><span aria-hidden="true">»</span><span
                                             class="sr-only">Next</span></a></li>
                                 {{/if}}
 
                             </ul>
                         </nav>
-                    </div>
+                    </h5>
+                    {{else}}
+                        <h1 class="text-center">Không có sản phẩm!</h1>
+                    {{/if}}
                 </div>
                 <!-- /.col-lg-9-->
             </div>
