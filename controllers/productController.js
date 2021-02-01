@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const productService = require('../services/productService');
+const reviewProduct = require('../services/reviewService');
 const PRODUCT_PER_PAGE = 12;
 
 exports.displayListProducts = async (req, res, next) => {
@@ -9,13 +10,28 @@ exports.displayListProducts = async (req, res, next) => {
 
     const catID = req.query.catID;
     const childCatID = req.query.childCatID;
+
+    //ID incorrect
+    if ((catID && catID.length != 24) || (childCatID && childCatID.length != 24)) {
+        const category = await productService.getCategory(1);
+
+        res.status(404);
+        res.render('404', {
+            title: "Không tìm thấy trang yêu cầu",
+            category: category,
+        });
+    }
+
+    //const checkCatID = await productService.checkObjectId("productTypeModel", catID);
+    //const checkChildCatID = await productService.checkObjectId("childProductTypeModel", childCatID);
+    //console.log("checkChildCatID: " + checkChildCatID);
     const filter = {
         catID: catID ? { productTypeID: mongoose.Types.ObjectId(catID) } : {},
         childCatID: childCatID ? { childProductTypeID: mongoose.Types.ObjectId(childCatID) } : {},
     }
     //console.log(filter.catID.productTypeID == null)
     const paginate = await productService.getListProducts(page, PRODUCT_PER_PAGE, filter);
-    const category = await productService.getCategory(paginate.page, filter);
+    const category = await productService.getCategory(filter);
     const pagination = productService.handlePagination(paginate.page, paginate.totalPages, filter);
     const countProducts = await productService.count();
 
@@ -48,13 +64,29 @@ exports.displayListProducts = async (req, res, next) => {
         totalDocs: countProducts,
         breadcrumb: breadcrumb,
         isActivedForCatAll: filter.catID.productTypeID == null ? true : false,
+        catID: catID,
+        childCatID: childCatID,
     });
 }
 
 exports.displayProductDetail = async (req, res, next) => {
     const productDetail = await productService.getProductDetailInfo(req, res, next);
+    const rating = reviewProduct.showRating(productDetail.rating);
+    
+    const childCatID = req.query.childCatID;
+    const filter = {
+        //catID: catID ? { productTypeID: mongoose.Types.ObjectId(catID) } : {},
+        childCatID: childCatID ? { childProductTypeID: mongoose.Types.ObjectId(childCatID) } : {},
+    }
+
+    const category = await productService.getCategory(filter);
+
     res.render('products/productDetail', {
         title: "Chi tiết - " + productDetail.productName,
         productDetail,
+        rating,
+        category,
+        isActivedForCatAll: false,
+
     })
 }

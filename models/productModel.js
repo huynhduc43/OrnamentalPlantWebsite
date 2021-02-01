@@ -18,6 +18,7 @@ const productSchema = mongoose.Schema({
     addDate: {type: Date, default: Date.now()},
     guide: {type: String, require: true},
     childProductTypeID: {type: mongoose.Schema.Types.ObjectId, require: true, ref: "ChildProductType"},
+    rating: {type: mongoose.Types.Decimal128, require: true, default: 0},
     //transportFee: {type: String, require: true},
 });
 

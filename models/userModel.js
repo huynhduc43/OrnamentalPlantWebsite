@@ -3,7 +3,7 @@ const Schema = mongoose.Schema();
 //const mongoosePaginate = require('mongoose-paginate-v2');
 
 const userSchema = mongoose.Schema({
-    username: {type: String, require: true},
+    //username: {type: String, require: true},
     name: {type: String, require: true},
     password: {type: String, require: true},
     DoB: {type: String, require: true},
@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     address: {type: mongoose.Schema.Types.ObjectId, require: true, ref: "Address"},
     gender: {type: String, require: true},
     avatar: {type: String},
-    isLocked:{type: Number, require: true, default: 0},
+    isLocked:{type: Boolean, require: true, default: false},
     userType: {type: mongoose.Schema.Types.ObjectId , require: true, ref: "UserType"},
 
     //id : {type: String, require: true},

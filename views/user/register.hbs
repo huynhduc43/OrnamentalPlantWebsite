@@ -1,0 +1,77 @@
+<div id="all">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- breadcrumb-->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Tài khoản mới / Đăng nhập</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box">
+                        <h1>Tài khoản mới</h1>
+                        <p class="lead">Chưa phải là khách hàng đã đăng ký của chúng tôi?</p>
+                        <p>Với việc đăng ký với chúng tôi thế giới thời trang mới, giảm giá tuyệt vời và nhiều hơn thế nữa sẽ 
+                            mở ra cho bạn! Toàn bộ quá trình sẽ không mất quá một phút của bạn!</p>
+                        <p class="text-muted">Nếu bạn có bất kỳ câu hỏi nào, vui lòng <a
+                                href="contact.html">liên hệ với chúng tôi</a>, trung tâm chăm sóc khách hàng của chúng tôi luôn làm việc 24/7.
+                        </p>
+                        <hr>
+                        <form action="/users/register" method="post">
+                            <div class="form-group">
+                                <label for="name">Họ tên</label>
+                                <input id="name" type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="email" class="form-control" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật khẩu</label>
+                                <input id="password" type="password" class="form-control" name="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*.{8,}$" 
+                                    title="Mật khẩu phải có tối thiểu 8 ký tự, trong đó có ít nhất 1 chữ thường, 1 chữ hoa và 1 số" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Nhập lại mật khẩu</label>
+                                <input id="password" type="password" class="form-control" name="re-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*.{8,}$" 
+                                    title="Mật khẩu phải có tối thiểu 8 ký tự, trong đó có ít nhất 1 chữ thường, 1 chữ hoa và 1 số" required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i></i>
+                                    Đăng ký</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box">
+                        <h1>Đăng nhập</h1>
+                        <p class="lead">Already our customer?</p>
+                        <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames
+                            ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet,
+                            ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris
+                            placerat eleifend leo.</p>
+                        <hr>
+                        <form action="customer-orders.html" method="post">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mật khẩu</label>
+                                <input id="password" type="password" class="form-control">
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Đăng nhập</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

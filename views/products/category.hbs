@@ -46,7 +46,7 @@
                                 </li>
                                 
                                 {{#each category}}
-                                    <li><a href="/products/category?page={{../currentPage}}&catID={{_id}}"
+                                    <li><a href="/products/category?page=1&catID={{_id}}"
                                             {{#if catIDIsActived}}
                                                 class="nav-link active"
                                             {{else}}
@@ -59,7 +59,7 @@
                                             {{/if}}>{{totalProducts}}</span></a>
                                         <ul class="list-unstyled">
                                             {{#each childProductTypeID}}
-                                                <li><a href="/products/category?page={{../../currentPage}}&catID={{../_id}}&childCatID={{_id}}" 
+                                                <li><a href="/products/category?page=1&catID={{../_id}}&childCatID={{_id}}" 
                                                 {{#if childCatIDIsActived}}
                                                     class="nav-link active"
                                                 {{else}}   
@@ -72,7 +72,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card sidebar-menu mb-4">
+                    {{!-- <div class="card sidebar-menu mb-4">
                         <div class="card-header">
                             <h3 class="h4 card-title">Brands <a href="#" class="btn btn-sm btn-danger pull-right"><i
                                         class="fa fa-times-circle"></i> Clear</a></h3>
@@ -144,7 +144,7 @@
                                     Apply</button>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- *** MENUS AND FILTERS END ***-->
                     <div class="banner"><a href="#"><img src="/images/banner.jpg" alt="sales 2014"
                                 class="img-fluid"></a>
@@ -185,11 +185,16 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="product">
                                 <div class="flip-container">
+                                   
                                     <div class="flipper">
+                                        <div class="container row">
+                                            <div class="col-auto bg-white" style="z-index: 999; position:absolute;"><i class="fa fa-eye" aria-hidden="true"></i> {{view}}</div>  
+                                        </div>
                                         <div class="front"><a href="/products/detail/{{_id}}"><img src="{{image}}"
                                                     alt="" class="img-fluid"></a></div>
                                         <div class="back"><a href="/products/detail/{{_id}}"><img src="{{image}}" alt=""
                                                     class="img-fluid"></a></div>
+                                                   
                                     </div>
                                 </div><a href="/products/detail/{{_id}}" class="invisible"><img src="{{image}}" alt=""
                                         class="img-fluid"></a>
@@ -198,7 +203,8 @@
                                     <p class="price">
                                         <del></del>{{defaultPrice}}₫
                                     </p>
-                                    <p class="buttons"><a href="/products/detail/{{_id}}"
+                                   
+                                    <p class="buttons"><a href="/products/detail/{{_id}}?childCatID={{childProductTypeID._id}}"
                                             class="btn btn-outline-secondary">Chi tiết
                                         </a><a href="basket.html" class="btn btn-primary"><i
                                                 class="fa fa-shopping-cart"></i>Thêm vào giỏ</a></p>
@@ -241,7 +247,7 @@
                         <nav aria-label="Page navigation example" class="d-flex justify-content-center">
                             <ul class="pagination">
                                 {{#if hasPrevPage}}
-                                <li class="page-item"><a href="/products/category?page={{prevPage}}&catID={{catID}}"
+                                <li class="page-item"><a href="/products/category?page={{prevPage}}&catID={{catID}}&childCatID={{childCatID}}"
                                         aria-label="Previous" class="page-link"><span aria-hidden="true">«</span><span
                                             class="sr-only">Previous</span></a></li>
                                 {{/if}}

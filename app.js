@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const connectDB = require('./dal/db');
+const passport = require('./passport');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -11,7 +14,7 @@ const productsRouter = require('./routes/products');
 
 var app = express();
 
-//Kết nối csdl
+//Connect to DB
 connectDB();
 
 // view engine setup
@@ -24,14 +27,50 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+//Passport middleware
+app.use(session({ secret: process.env.SESSION_SECRET}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+//Pass req.user
+app.use(function (req, res, next) {
+  res.locals.user = req.user;
+  next();
+})
+
+//Routes
+
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
+app.use('/', indexRouter);
+//app.use('/account', accountRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+
+//---Handle page not found---
+// app.use(function(req, res, next){
+//   res.status(404);
+
+//   // respond with html page
+//   if (req.accepts('html')) {
+//     res.render('404', { url: req.url });
+//     return;
+//   }
+
+//   // respond with json
+//   if (req.accepts('json')) {
+//     res.send({ error: 'Not found' });
+//     return;
+//   }
+
+//   // default to plain-text. send()
+//   res.type('txt').send('Not found');
+// });
+
 
 // error handler
 app.use(function(err, req, res, next) {
