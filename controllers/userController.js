@@ -6,7 +6,8 @@ exports.login = async () => {
 }
 
 exports.logout = async (req, res, next) => {
-    await userService.logout(req, res);
+    req.logout();
+    res.redirect('/');
 }
 
 exports.register = async (req, res, next) => {
@@ -25,6 +26,64 @@ exports.displayRegisterPage = async (req, res, next) => {
     });
 }
 
-exports.displayUserInfor = async (req, res, next) => {
-    res.send('Trang thông tin người dùng');
+exports.displayAccount = async (req, res, next) => {
+    if (!req.user) {
+        res.redirect('/users/register');
+    }
+
+    const id = req.user._id;
+    const user = await userService.getUser(id);
+    const category = await productService.getCategory(1);
+
+    res.render('user/myAccount', {
+        title: "Tài khoản của tôi",
+        category: category,
+        user: user,
+    });
+}
+
+exports.displayOrders = async (req, res, next) => {
+    if (!req.user) {
+        res.redirect('/users/register');
+    }
+
+    //const id = req.user._id;
+    //const user = await userService.getUser(id);
+    const category = await productService.getCategory(1);
+
+    res.render('user/myOrder', {
+        title: "Đơn hàng của tôi",
+        category: category,
+        user: user,
+        
+    });
+}
+
+exports.displayOrderDetail = async (req, res, next) => {
+    if (!req.user) {
+        res.redirect('/users/register');
+    }
+
+    const id = req.user._id;
+    const user = await userService.getUser(id);
+    const category = await productService.getCategory(1);
+
+    res.render('user/myAccount', {
+        title: "Chi tiết đơn hàng",
+        category: category,
+        user: user,
+    });
+}
+
+exports.updateAccInfor = async (req, res, next) => {
+    await userService.updateAccInfor(req, res);
+
+    //req.logout();
+    res.redirect('/users/my-account');
+}
+
+exports.updateAvatar = async (req, res, next) => {
+    await userService.updateAvatar(req, res, next);
+
+    res.redirect('/users/my-account');
 }

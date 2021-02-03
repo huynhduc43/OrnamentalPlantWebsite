@@ -2,7 +2,7 @@ const productModel = require('../models/productModel');
 
 exports.getListProducts = async (pageNumber, productPerPage, filter) => {
     const queryString = filter.childCatID.childProductTypeID ? filter.childCatID : filter.catID;
-    console.log(queryString);
+    //console.log(queryString);
     let listProducts = await productModel.productModel
         .paginate(queryString, {
             page: pageNumber,

@@ -7,18 +7,34 @@ const connectDB = require('./dal/db');
 const passport = require('./passport');
 const session = require('express-session');
 const flash = require('connect-flash');
+const hbs = require('express-handlebars');
+const methodOverride = require('method-override')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 
-var app = express();
+const app = express();
+
+// override with POST having ?_method=DELETE | PUT ...
+app.use(methodOverride('_method'));
 
 //Connect to DB
 connectDB();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', hbs({
+  defaultLayout: 'layout',
+  extname: '.hbs',
+  runtimeOptions: {
+    allowProtoPropertiesByDefault: true,
+    allowProtoMethodsByDefault: true
+  },
+  layoutsDir: __dirname + '/views/',
+  partialsDir: __dirname + '/views/partials/'
+}));
+
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
@@ -39,8 +55,13 @@ app.use(function (req, res, next) {
   next();
 })
 
-//Routes
+// const ensureAuthenticated = function(req, res, next) {
+//   if (req.isAuthenticated()) return next();
+//   else res.redirect('/');
+// }
+//app.use(ensureAuthenticated);
 
+//Routes
 app.use('/users', usersRouter);
 app.use('/products', productsRouter);
 app.use('/', indexRouter);

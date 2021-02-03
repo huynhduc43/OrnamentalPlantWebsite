@@ -6,10 +6,10 @@ const uri = process.env.PRODUCTS_MONGODB_URL;
 const connectDB = async()=>{
     try {
         await mongoose.connect(uri,{
-            useCreateIndex:true,
+            useCreateIndex: true,
             useNewUrlParser: true,
-            useUnifiedTopology:true,
-            useFindAndModify:false
+            useUnifiedTopology: true,
+            useFindAndModify: false
         });
         console.log("Connected to MongoDB!");
     } catch (error) {

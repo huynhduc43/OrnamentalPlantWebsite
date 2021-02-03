@@ -1,0 +1,63 @@
+<div class="card sidebar-menu mb-3">
+    <div class="card-header">
+        <h3 class="h4 card-title">{{user.name}}</h3>
+    </div>
+    <div class="card-body">
+        <div class="text-center">
+            <img class="img-fluid rounded-circle p-4"
+                src="{{user.avatar}}"
+                alt="Ảnh đại diện" style="max-width: 200px;">
+        </div>
+
+        <div class="text-center">
+            {{!-- <button type="submit" class="btn btn-primary"><i class="fas fa-edit"></i></i> Đổi
+                avatar</button> --}}
+            <button class="btn btn-primary" data-toggle="modal" data-target="#changeAvt"><i class="fas fa-edit"></i> Đổi avatar</button>
+
+            <!--Change Avatar Modal -->
+            <div class="modal fade" id="changeAvt" tabindex="-1" role="dialog" aria-labelledby="changeAvtLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <form action="/users/my-account/update-avatar?_method=PUT" method="POST"
+                            enctype="multipart/form-data">
+                            {{!-- <input type="hidden" name="_method" value="PUT"> --}}
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="changeAvtLabel">Chọn ảnh đại diện mới</h3>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="custom-file text-left">
+                                    <input type="file" name="userAvatar" onchange="readOneURL(this);"
+                                        accept="image/*" required>
+                                </div>
+                                <img class="" id="previewMainImg" src="#" alt="Ảnh đại diện" width="150px" height="150px"
+                                    style="display: none;" />
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                                <button class="btn btn-primary" type="submit">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card sidebar-menu mb-3">
+    <div class="card-header">
+        <h3 class="h4 card-title">Thông tin tài khoản</h3>
+    </div>
+    <div class="card-body">
+        <ul class="nav nav-pills flex-column"><a href="customer-orders.html" class="nav-link"><i class="fa fa-list"></i>
+                Đơn hàng</a><a href="customer-wishlist.html" class="nav-link"><i class="fa fa-heart"></i> Danh sách yêu
+                thích</a><a href="customer-account.html" class="nav-link active"><i class="fa fa-user"></i> Tài
+                khoản</a><a href="index.html" class="nav-link"><i class="fa fa-sign-out"></i> Đăng
+                xuất</a></ul>
+    </div>
+</div>

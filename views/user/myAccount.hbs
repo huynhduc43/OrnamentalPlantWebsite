@@ -1,0 +1,100 @@
+<div id="all">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- breadcrumb-->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Tài khoản của tôi</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <!--
+              *** CUSTOMER MENU ***
+              _________________________________________________________
+              -->
+                    {{> userMenu}}
+                    <!-- /.col-lg-3-->
+                    <!-- *** CUSTOMER MENU END ***-->
+                </div>
+                <div class="col-lg-9">
+                    <div class="box">
+                        <h1>Thông tin tài khoản</h1><br>
+                        <form action="/users/my-account/update-infor?_method=PUT" method="POST">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="h4" for="name">Họ tên</label>
+                                        <input id="name" name="name" type="text" class="form-control"
+                                            value="{{user.name}}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.row-->
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="h4" for="phoneNumber">Số điện thoại</label>
+                                        <input id="phoneNumber" name="phoneNumber" type="tel" class="form-control"
+                                            value="{{user.phoneNumber}}" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="h4" for="email">Email</label>
+                                        <input id="email" type="text" class="form-control bg-white"
+                                            value="{{user.email}}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.row-->
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="h4" for="DoB">Ngày sinh</label>
+                                        <input id="DoB" name="DoB" type="date" class="form-control"
+                                            value="{{user.DoB}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="h4 p">Giới tính</label>
+                                        <div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="male"
+                                                    value="Nam" {{#if user.genderRadio.male}} checked {{/if}}>
+                                                <label class="form-check-label" for="male">Nam</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="female"
+                                                    value="Nữ" {{#if user.genderRadio.female}} checked {{/if}}>
+                                                <label class="form-check-label" for="female">Nữ</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="gender" id="other"
+                                                    value="Khác" {{#if user.genderRadio.other}} checked {{/if}}>
+                                                <label class="form-check-label" for="other">Khác</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.row-->
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Lưu thay
+                                    đổi</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

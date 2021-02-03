@@ -18,10 +18,10 @@ router.post('/register', userController.register);
 
 router.get('/logout', userController.logout);
 
-router.get('/my-account', userController.displayUserInfor);
+router.get('/my-account', userController.displayAccount);
 
-// router.get('/', function (req, res, next) {
-//   res.send('respond with a resource');
-// });
+router.put('/my-account/update-infor', userController.updateAccInfor);
+
+router.put('/my-account/update-avatar', userController.updateAvatar);
 
 module.exports = router;
